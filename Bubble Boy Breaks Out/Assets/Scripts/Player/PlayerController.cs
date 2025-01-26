@@ -35,6 +35,15 @@ public class PlayerController : MonoBehaviour
     public bool isOnWall = false;
     public float wallJumpDirection;
     private bool _isFacingRight = true;
+    
+    //audio
+    public AudioClip expand;
+    public AudioClip contract;
+    public AudioClip splat;
+    public AudioClip stick;
+    public AudioClip bubble;
+    public AudioClip move;
+
 
     public bool IsFacingRight {
         get {
@@ -55,6 +64,7 @@ public class PlayerController : MonoBehaviour
         } private set {
             _isMoving = value;
             animator.SetBool("IsMoving", value); 
+            AudioSource.PlayClipAtPoint(move, transform.position);
         }
     }
 
@@ -99,7 +109,6 @@ public class PlayerController : MonoBehaviour
             }
             bubbleSize = Mathf.Clamp(bubbleSize, 0.5f, 2f);
         }
-        
     }
 
     
@@ -144,9 +153,7 @@ public class PlayerController : MonoBehaviour
         }
         GameObject collidedWith = collider.gameObject;
         if(collidedWith.CompareTag("Danger")){
-            
-            StartCoroutine(Respawn(0.1f));
-            
+            StartCoroutine(DeathAnim(.3f));
         }
         if (collidedWith.CompareTag("Coin")){
             Destroy(collidedWith);
@@ -157,6 +164,13 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadSceneAsync("WinScreen");    
         }
+    }
+
+    IEnumerator DeathAnim(float duration) {
+        animator.SetTrigger("Die");
+        AudioSource.PlayClipAtPoint(bubble, transform.position);
+        yield return new WaitForSeconds(duration);
+        StartCoroutine(Respawn(0.1f));
     }
     
     IEnumerator Respawn(float duration){
@@ -209,7 +223,6 @@ public class PlayerController : MonoBehaviour
             return;
         }
         // SetFacingDirection(moveInput);
-        
     }
 
     public void onJump(InputAction.CallbackContext context) {
@@ -233,11 +246,13 @@ public class PlayerController : MonoBehaviour
         if (context.started && !IsBubble) {
             IsBubble = true;
             animator.SetTrigger("Expand");
+            AudioSource.PlayClipAtPoint(expand, transform.position);
             Debug.Log("Bubble");
         } else if (context.started && IsBubble) {
             IsBubble = false;
             bubbleSize = 1.0f;
             animator.SetTrigger("Contract");
+            AudioSource.PlayClipAtPoint(contract, transform.position);
             Debug.Log("Not Bubble");
         }
     }

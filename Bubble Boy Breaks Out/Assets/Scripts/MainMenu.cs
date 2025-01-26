@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+
+    void Start() {
+        MusicManager.Instance.PlayMusic("BubbleBoyTheme");
+    }
     
     public void PlayGame()
     {
