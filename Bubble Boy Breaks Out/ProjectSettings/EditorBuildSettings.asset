@@ -14,5 +14,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AlexTestScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/FirstLevel.unity
+    guid: b494debf80f70d34c868f69ad6b33f5b
+  - enabled: 1
+    path: Assets/Scenes/WinScreen.unity
+    guid: 6fa4814f0d6ec8b46b045adb7250a62a
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: d858523ae0232b94eac032b1cffc7768, type: 2}
