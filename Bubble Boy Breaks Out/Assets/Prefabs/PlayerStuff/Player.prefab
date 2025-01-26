@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 7322952557765983889}
   - component: {fileID: 9203888540723963448}
   - component: {fileID: 1379221239699543593}
+  - component: {fileID: 5631151451853148122}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -474,6 +475,7 @@ MonoBehaviour:
   bubbleGravityScale: 0.2
   movementSpeed: 3
   jumpPluse: 3
+  score: 0
   CanMove: 1
   isOnWall: 0
   wallJumpDirection: 0
@@ -538,7 +540,7 @@ MonoBehaviour:
   maxDistance: 10
   grappleableMask:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 256
   lineRenderer: {fileID: 0}
 --- !u!120 &1379221239699543593
 LineRenderer:
@@ -644,3 +646,24 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!95 &5631151451853148122
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2501181518943758494}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8b5f4f00b751626468bf1fb8ff421a08, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

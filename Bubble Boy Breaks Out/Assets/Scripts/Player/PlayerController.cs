@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask wallLayer;
     Rigidbody2D rb;
     CircleCollider2D circleCollider;
+    Animator animator;
 
     Vector2 moveInput;
     Vector2 startPos;
@@ -39,9 +40,20 @@ public class PlayerController : MonoBehaviour
             return _isFacingRight;
         } private set {
             if (_isFacingRight != value) {
-                transform.localScale *= new Vector2(-1, 1);
+                // transform.localScale *= new Vector2(-1, 1);
+                spriteRenderer.flipX = true;
             }
             _isFacingRight = value;
+        }
+    }
+
+    private bool _isMoving = false;
+    public bool IsMoving {
+        get {
+            return _isMoving;
+        } private set {
+            _isMoving = value;
+            animator.SetBool("IsMoving", value); 
         }
     }
 
@@ -52,6 +64,7 @@ public class PlayerController : MonoBehaviour
         } private set {
             _isBubble = value;
             // set animator to bubble boy
+            animator.SetBool("IsBubble", value);
         }
     }
     
@@ -67,6 +80,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         circleCollider = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -181,6 +195,11 @@ public class PlayerController : MonoBehaviour
     // Input system callbacks
     public void onMove(InputAction.CallbackContext context) {
         moveInput = context.ReadValue<Vector2>();
+        if (moveInput != Vector2.zero && !isOnWall) {
+            IsMoving = true;
+        } else {
+            IsMoving = false;
+        }
         if(isOnWall && !isOnGround() && !IsBubble){
             return;
         }
@@ -208,10 +227,12 @@ public class PlayerController : MonoBehaviour
     public void onBubble(InputAction.CallbackContext context) {
         if (context.started && !IsBubble) {
             IsBubble = true;
+            animator.SetTrigger("Expand");
             Debug.Log("Bubble");
         } else if (context.started && IsBubble) {
             IsBubble = false;
             bubbleSize = 1.0f;
+            animator.SetTrigger("Contract");
             Debug.Log("Not Bubble");
         }
     }
