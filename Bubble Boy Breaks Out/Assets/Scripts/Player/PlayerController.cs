@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     CircleCollider2D circleCollider;
 
     Vector2 moveInput;
+    Vector2 startPos;
 
     [Tooltip("How big the bubble is relative to its 'normal' size")]
     public float bubbleSize = 1.0f; // 1.0 = default size
@@ -21,10 +23,10 @@ public class PlayerController : MonoBehaviour
     public float buoyancyFactor = 5f;
     [Tooltip("Should the bubble also reduce gravity scale? (Optional)")]
     public float bubbleGravityScale = 0.2f;
-
+    SpriteRenderer spriteRenderer;
     public float movementSpeed = 5f;
     public float jumpPluse = 1.0f;
-
+    public int score;
     private float bubbleControl = 0f;
 
     public bool CanMove = true;
@@ -65,12 +67,13 @@ public class PlayerController : MonoBehaviour
     void Awake() {
         rb = GetComponent<Rigidbody2D>();
         circleCollider = GetComponent<CircleCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        startPos = transform.position;
     }
 
     // Update is called once per frame
@@ -84,6 +87,7 @@ public class PlayerController : MonoBehaviour
             }
             bubbleSize = Mathf.Clamp(bubbleSize, 0.5f, 2f);
         }
+        
     }
 
     void FixedUpdate() {
@@ -123,9 +127,25 @@ public class PlayerController : MonoBehaviour
         if (collider.gameObject.layer == 8 && isOnWall == false) {
             isOnWall = true;
         }
+        GameObject collidedWith = collider.gameObject;
+        if(collidedWith.CompareTag("Danger")){
+            
+            StartCoroutine(Respawn(0.5f));
+            
+        }
+        if (collidedWith.CompareTag("Coin")){
+            Destroy(collidedWith);
+            score= score + 5;
+            
+        }
     }
-
-
+    
+    IEnumerator Respawn(float duration){
+        spriteRenderer.enabled = false;
+        yield return new WaitForSeconds(duration);
+        transform.position = startPos;
+        spriteRenderer.enabled = true;
+    }
 
     private bool isOnGround() {
         RaycastHit2D hit = Physics2D.CircleCast(circleCollider.bounds.center, circleCollider.radius, Vector2.down, 0.1f, groundLayer);
