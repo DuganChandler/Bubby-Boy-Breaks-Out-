@@ -30,8 +30,6 @@ public class PlayerController : MonoBehaviour
     public bool CanMove = true;
 
     public bool isOnWall = false;
-    public float movementSpeed = 5f;
-    public float jumpPluse = 4f;
     public float wallJumpDirection;
     private bool _isFacingRight = true;
     
@@ -64,8 +62,6 @@ public class PlayerController : MonoBehaviour
         }
     }}
 
-
-
     void Awake() {
         rb = GetComponent<Rigidbody2D>();
         circleCollider = GetComponent<CircleCollider2D>();
@@ -91,20 +87,10 @@ public class PlayerController : MonoBehaviour
     }
 
     void FixedUpdate() {
-        // Normal horizontal movement, but maybe slower if in bubble:
+        SetWallDirection();
         float effectiveSpeed = IsBubble ? CurrentSpeed * 0.25f : CurrentSpeed;
-        rb.velocity = new Vector2(moveInput.x * effectiveSpeed, rb.velocity.y);
-        
-        if (isOnWall) {
-            rb.gravityScale = 0;
-            rb.velocity = Vector2.zero;
-        } else if (!isOnWall) {
-            rb.gravityScale = 1;
-            rb.velocity = new Vector2(moveInput.x * CurrentSpeed, rb.velocity.y);
-        }
-
-        if (IsBubble)
-        {
+        if (IsBubble) {
+            rb.velocity = new Vector2(moveInput.x * effectiveSpeed, rb.velocity.y);
             // Optionally reduce gravity scale so we don't fall so fast:
             rb.gravityScale = bubbleGravityScale;
 
@@ -122,18 +108,14 @@ public class PlayerController : MonoBehaviour
 
             // OPTIONAL: Add some linear drag for floaty, slower movement
             rb.drag = 2f;  
-        }
-        else
-        {
-            // Normal mode
-            rb.gravityScale = 1.0f; 
+        } else if (isOnWall) {
+            rb.gravityScale = 0;
+            rb.velocity = Vector2.zero;
+        } else if (!isOnWall) {
+            rb.gravityScale = 1;
+            rb.velocity = new Vector2(moveInput.x * effectiveSpeed, rb.velocity.y);
             rb.drag = 0f;
         }
-        // rb.velocity = new Vector2(moveInput.x * CurrentSpeed, rb.velocity.y);
-        // if (IsBubble) {
-        // }
-        SetWallDirection();
-
     }
 
     
@@ -164,7 +146,7 @@ public class PlayerController : MonoBehaviour
 
     public void onMove(InputAction.CallbackContext context) {
         moveInput = context.ReadValue<Vector2>();
-        if(isOnWall && !isOnGround()){
+        if(isOnWall && !isOnGround() && !IsBubble){
             return;
         }
         SetFacingDirection(moveInput);
