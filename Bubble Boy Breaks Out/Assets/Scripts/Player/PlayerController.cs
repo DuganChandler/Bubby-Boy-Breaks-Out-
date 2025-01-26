@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -130,13 +131,17 @@ public class PlayerController : MonoBehaviour
         GameObject collidedWith = collider.gameObject;
         if(collidedWith.CompareTag("Danger")){
             
-            StartCoroutine(Respawn(0.5f));
+            StartCoroutine(Respawn(0.1f));
             
         }
         if (collidedWith.CompareTag("Coin")){
             Destroy(collidedWith);
             score= score + 5;
             
+        }
+        if (collidedWith.CompareTag("Win"))
+        {
+            SceneManager.LoadSceneAsync("WinScreen");    
         }
     }
     
