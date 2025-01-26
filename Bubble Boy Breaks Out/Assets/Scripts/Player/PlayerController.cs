@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour
     public bool isOnWall = false;
     public float wallJumpDirection;
     private bool _isFacingRight = true;
-    
+
     public bool IsFacingRight {
         get {
             return _isFacingRight;
@@ -67,15 +68,10 @@ public class PlayerController : MonoBehaviour
         circleCollider = GetComponent<CircleCollider2D>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    void Start() {
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (IsBubble) {
             if (bubbleControl > 0) {
                 bubbleSize += Time.deltaTime * 0.5f;
@@ -85,6 +81,8 @@ public class PlayerController : MonoBehaviour
             bubbleSize = Mathf.Clamp(bubbleSize, 0.5f, 2f);
         }
     }
+
+    
 
     void FixedUpdate() {
         SetWallDirection();
@@ -119,13 +117,19 @@ public class PlayerController : MonoBehaviour
     }
 
     
-    void OnCollisionEnter2D(Collision2D collider){
+
+    void OnTriggerEnter2D(Collider2D collider){
         if (collider.gameObject.layer == 8 && isOnWall == false) {
             isOnWall = true;
         }
     }
 
-
+    void OnTriggerExit2D(Collider2D collider) {
+        if (collider.gameObject.layer == 8 && isOnWall == true && !IsBubble) {
+            isOnWall = false;
+            rb.gravityScale = 1;
+        }
+    }
 
     private bool isOnGround() {
         RaycastHit2D hit = Physics2D.CircleCast(circleCollider.bounds.center, circleCollider.radius, Vector2.down, 0.1f, groundLayer);
@@ -141,19 +145,8 @@ public class PlayerController : MonoBehaviour
             wallJumpDirection = 1;
         }
     }
-    
-    
 
-    public void onMove(InputAction.CallbackContext context) {
-        moveInput = context.ReadValue<Vector2>();
-        if(isOnWall && !isOnGround() && !IsBubble){
-            return;
-        }
-        SetFacingDirection(moveInput);
-        
-    }
-
-    private void SetFacingDirection(Vector2 moveInput) {
+     private void SetFacingDirection(Vector2 moveInput) {
         if (moveInput.x > 0 && !IsFacingRight) {
             IsFacingRight = true;
         } else if (moveInput.x < 0 && IsFacingRight) {
@@ -161,11 +154,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    // Input system callbacks
+    public void onMove(InputAction.CallbackContext context) {
+        moveInput = context.ReadValue<Vector2>();
+        if(isOnWall && !isOnGround() && !IsBubble){
+            return;
+        }
+        // SetFacingDirection(moveInput);
+        
+    }
+
     public void onJump(InputAction.CallbackContext context) {
-        Debug.Log(isOnGround());
         if (context.started && isOnGround() && CanMove && !isOnWall && !IsBubble) {
             rb.velocity = new Vector2(rb.velocity.x, jumpPluse);
-        } else if(context.started && isOnWall){
+        } else if(context.started && isOnWall && !IsBubble){
             isOnWall = false;
             rb.gravityScale = 1;
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, 0f));
