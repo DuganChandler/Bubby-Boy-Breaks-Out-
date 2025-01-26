@@ -449,9 +449,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0076868534, y: -0.010972381}
+  m_Offset: {x: 0.014197469, y: -0.046780735}
   serializedVersion: 2
-  m_Radius: 0.3846178
+  m_Radius: 0.3162567
 --- !u!114 &4736312560686608292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +479,12 @@ MonoBehaviour:
   CanMove: 1
   isOnWall: 0
   wallJumpDirection: 0
+  expand: {fileID: 8300000, guid: 135302386d644a441838e1cf3816009e, type: 3}
+  contract: {fileID: 8300000, guid: 832e3f2423c52134fb4ad3f1688bf5a1, type: 3}
+  splat: {fileID: 8300000, guid: 509e058eb0183ed4d806d09aa0ff7b3c, type: 3}
+  stick: {fileID: 8300000, guid: de4ea0c716791c54fa0651ab6ab2ec31, type: 3}
+  bubble: {fileID: 8300000, guid: 4a0373897366bc94b9a0d1208fb84f9d, type: 3}
+  move: {fileID: 8300000, guid: a2ea12456aae58547b7f3e6e4169f365, type: 3}
 --- !u!61 &7322952557765983889
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -511,7 +517,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0036878586, y: 0.020754397}
+  m_Offset: {x: 0.016708761, y: 0.10213679}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -522,7 +528,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.87435305, y: 0.758896}
+  m_Size: {x: 0.80924696, y: 0.5961312}
   m_EdgeRadius: 0
 --- !u!114 &9203888540723963448
 MonoBehaviour:
