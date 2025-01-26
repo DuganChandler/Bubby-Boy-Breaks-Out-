@@ -54,10 +54,10 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60
-    OrthographicSize: 1.8392245
-    NearClipPlane: 0.3
-    FarClipPlane: 1000
+    FieldOfView: 40
+    OrthographicSize: 10
+    NearClipPlane: 0.1
+    FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
