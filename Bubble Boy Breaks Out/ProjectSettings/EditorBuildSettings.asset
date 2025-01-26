@@ -6,13 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 9c729912637f09c48851c393e27d262c
-  - enabled: 1
-    path: Assets/Scenes/LevelSelect.unity
-    guid: 7340aaca5e55d6e43b936b70cb047b55
-  - enabled: 1
-    path: Assets/Scenes/AlexTestScene.unity
+    path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: d858523ae0232b94eac032b1cffc7768, type: 2}
+  m_configObjects: {}
